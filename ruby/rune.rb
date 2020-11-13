@@ -1,4 +1,4 @@
-require_relative './image'
+require_relative "./image"
 
 class Rune
   attr_accessor :type
@@ -14,7 +14,15 @@ class Rune
   end
 
   def draw
-    img.draw(@x - img.width / 2.0, @y - img.height / 2.0, 1, scale_amount, scale_amount, @color)
+    img.draw(@x, @y, 1, scale_amount, scale_amount, @color)
+  end
+
+  def click(position)
+    @color = Rune.random_color
+  end
+
+  def within?(position)
+    within_x_axis?(position[0]) and within_y_axis?(position[1])
   end
 
   def self.size
@@ -22,6 +30,22 @@ class Rune
   end
 
   private
+
+  def within_x_axis?(x)
+    x >= @x and x <= end_x
+  end
+
+  def within_y_axis?(y)
+    y >= @y and y <= end_y
+  end
+
+  def end_x
+    @x + SIZE
+  end
+
+  def end_y
+    @y + SIZE
+  end
 
   def img
     RUNE_IMGS[@type]
