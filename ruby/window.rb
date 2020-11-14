@@ -3,29 +3,28 @@ require_relative "./board"
 require_relative "./mouse"
 
 class Window < Gosu::Window
-  MOUSE_ID = 256
+  LEFT_MOUSE_ID = 256
+  RIGHT_MOSUE_ID = 258
 
   def initialize
     super 1000, 1000, update_interval: 10
     self.caption = "game prototype"
-    @board = Board.new(0, 0, size: [10, 10])
+    @board = Board.new(200, 200, size: [10, 10])
     @mouse = Mouse.new(
       method(:mouse_x),
       method(:mouse_y)
     )
   end
 
-  def click
+  def click(left)
     position = @mouse.click
-    if @board.within?(position)
-      @board.click(position)
-    end
+    @board.click(position,left) if @board.within?(position)
   end
 
   def button_down(id)
-    if id == MOUSE_ID
-      click
-    end
+    click(true) if id == LEFT_MOUSE_ID
+    click(false) if id == RIGHT_MOSUE_ID
+    # puts id
   end
 
   private
