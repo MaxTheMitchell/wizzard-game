@@ -1,20 +1,22 @@
 require "gosu"
 
 class Image
-  def initialize(path)
+  def initialize(path,width,height)
     @img = Gosu::Image.new(path)
+    @width = width
+    @height = height
   end
 
-  def draw(x, y, z, x_scale = 1, y_scale = 1, color = Gosu::Color.new(255, 255, 255, 255))
+  def draw(x, y, z, color = 0xff_ffffff)
     @img.draw(x, y, z, x_scale, y_scale, color)
   end
 
-  def width
-    @img.width
+  def x_scale
+    @width.to_f/@img.width
   end
 
-  def height
-    @img.height
+  def y_scale
+    @height.to_f/@img.height
   end
 
   def self.load_tiles(path, tile_width, tile_height)

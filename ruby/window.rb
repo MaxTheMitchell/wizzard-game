@@ -1,24 +1,27 @@
 require "gosu"
 require_relative "./board"
 require_relative "./mouse"
+require_relative "./titleScreen"
 
 class Window < Gosu::Window
   LEFT_MOUSE_ID = 256
   RIGHT_MOSUE_ID = 258
+  SIZE = 1500, 1000
 
   def initialize
-    super 1000, 1000, update_interval: 10
+    super(*SIZE, update_interval: 10)
     self.caption = "game prototype"
-    @board = Board.new(200, 200, size: [10, 10])
-    @mouse = Mouse.new(
-      method(:mouse_x),
-      method(:mouse_y)
-    )
+    # @board = Board.new(200, 200, size: [10, 10])
+    # @mouse = Mouse.new(
+    #   method(:mouse_x),
+    #   method(:mouse_y)
+    # )
+    @titleScreen = TitleScreen.new(*SIZE)
   end
 
   def click(left)
     position = @mouse.click
-    @board.click(position,left) if @board.within?(position)
+    @board.click(position, left) if @board.within?(position)
   end
 
   def button_down(id)
@@ -30,11 +33,12 @@ class Window < Gosu::Window
   private
 
   def update
-    @mouse.update
+    # @mouse.update
   end
 
   def draw
-    @board.draw
-    @mouse.draw
+    @titleScreen.draw
+    # @board.draw
+    # @mouse.draw
   end
 end

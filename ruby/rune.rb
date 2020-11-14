@@ -63,7 +63,7 @@ class Rune
   end
 
   def self.amount_of_rune_breeds
-    RUNE_IMGS.length
+    # RUNE_IMGS.length
     3
   end
 
