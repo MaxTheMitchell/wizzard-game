@@ -2,7 +2,7 @@ require_relative "./image"
 
 class Mouse
   SIZE = [25, 25]
-  IMG = Image.new("assets/mouse.png",*SIZE)
+  IMG = Image.new("assets/mouse.png",SIZE)
   
   def initialize(x, y)
     @x = x
@@ -12,10 +12,7 @@ class Mouse
   def draw
     IMG.draw(*position, 2)
   end
-
-  def update
-  end
-
+  
   def click
     position
   end

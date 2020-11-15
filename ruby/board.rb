@@ -1,9 +1,9 @@
 require_relative "./rune"
 
 class Board
-  def initialize(x = 0, y = 0, options = {})
-    @x = x
-    @y = y
+  def initialize(position, options = {})
+    @x = position[0]
+    @y = position[1]
     @runes = options[:runes] ||= random_runes(*options[:size])
   end
 
@@ -54,7 +54,7 @@ class Board
 
   def random_runes(x, y)
     (0..x).map do |row|
-      (0..y).map { |col| Rune.new(row, col) }
+      (0..y).map { |col| Rune.new([row, col]) }
     end
   end
 

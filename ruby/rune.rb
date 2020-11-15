@@ -3,18 +3,19 @@ require_relative "./image"
 class Rune
   attr_accessor :breed, :color, :x, :y
 
-  RUNE_IMGS = Image.load_tiles("assets/symbols.png", 100, 100)
-  SIZE = 50
+  SIZE = [50, 50]
+  RUNE_IMGS = Image.load_tiles("assets/symbols.png", [100, 100], SIZE)
 
-  def initialize(x = 0, y = 0, breed = Rune.random_rune, color = Rune.random_color)
-    @x = x*SIZE
-    @y = y*SIZE
+  def initialize(position, breed = Rune.random_rune, color = Rune.random_color)
+    @x = position[0] * SIZE[0]
+    @y = position[1] * SIZE[1]
     @breed = breed
     @color = color
   end
 
   def draw(x_offput = 0, y_offput = 0)
-    img.draw(@x + x_offput, @y + y_offput, 1, scale_amount, scale_amount, @color)
+    puts "fuck #{@breed}"if img == nil
+    img.draw(@x + x_offput, @y + y_offput, 1, @color)
   end
 
   def click(position)
@@ -25,15 +26,15 @@ class Rune
   end
 
   def self.size
-    SIZE
+    SIZE[0]
   end
 
   def x
-    @x/SIZE
+    @x / width
   end
 
   def y
-    @y/SIZE
+    @y / height
   end
 
   private
@@ -47,19 +48,23 @@ class Rune
   end
 
   def end_x
-    @x + SIZE
+    @x + width
   end
 
   def end_y
-    @y + SIZE
+    @y + height
   end
 
+  def width
+    SIZE[0]
+  end
+
+  def height
+    SIZE[1]
+  end
+  
   def img
     RUNE_IMGS[@breed]
-  end
-
-  def scale_amount
-    SIZE.to_f / img.width
   end
 
   def self.amount_of_rune_breeds
@@ -72,7 +77,7 @@ class Rune
   end
 
   def self.random_color
-    [ Gosu::Color::RED.dup,Gosu::Color::BLUE.dup,Gosu::Color::GREEN.dup].sample
+    [Gosu::Color::RED.dup, Gosu::Color::BLUE.dup, Gosu::Color::GREEN.dup].sample
     # Gosu::Color.new(255, rand(255), rand(255), rand(255))
   end
 end

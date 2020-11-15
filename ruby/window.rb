@@ -11,12 +11,12 @@ class Window < Gosu::Window
   def initialize
     super(*SIZE, update_interval: 10)
     self.caption = "game prototype"
-    # @board = Board.new(200, 200, size: [10, 10])
-    # @mouse = Mouse.new(
-    #   method(:mouse_x),
-    #   method(:mouse_y)
-    # )
-    @titleScreen = TitleScreen.new(*SIZE)
+    @board = Board.new([750, 150], size: [10, 10])
+    @mouse = Mouse.new(
+      method(:mouse_x),
+      method(:mouse_y)
+    )
+    @titleScreen = TitleScreen.new(SIZE)
   end
 
   def click(left)
@@ -32,13 +32,9 @@ class Window < Gosu::Window
 
   private
 
-  def update
-    # @mouse.update
-  end
-
   def draw
     @titleScreen.draw
-    # @board.draw
-    # @mouse.draw
+    @board.draw
+    @mouse.draw
   end
 end
