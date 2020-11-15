@@ -2,6 +2,7 @@ require "gosu"
 require_relative "./board"
 require_relative "./mouse"
 require_relative "./titleScreen"
+require_relative "./button"
 
 class Window < Gosu::Window
   LEFT_MOUSE_ID = 256
@@ -16,6 +17,8 @@ class Window < Gosu::Window
       method(:mouse_x),
       method(:mouse_y)
     )
+    @button = Button.new([100,100],[500,300],"foo",Gosu::Color::RED.dup)
+    @button1= Button.new([100,600],[500,300],"This is a lot of text... ok???",Gosu::Color::GREEN.dup)
     @titleScreen = TitleScreen.new(SIZE)
   end
 
@@ -36,5 +39,7 @@ class Window < Gosu::Window
     @titleScreen.draw
     @board.draw
     @mouse.draw
+    @button.draw
+    @button1.draw
   end
 end
