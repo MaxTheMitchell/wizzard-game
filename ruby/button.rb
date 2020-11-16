@@ -31,7 +31,7 @@ class Button
     })
   end
 
-  def click left_click
+  def click left_click = true
     @onclick.call
   end
 
