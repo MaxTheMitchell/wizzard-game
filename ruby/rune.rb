@@ -3,7 +3,7 @@ require_relative "./color"
 require_relative "./hitbox"
 
 class Rune
-  attr_accessor :breed, :color, :x, :y
+  attr_accessor :breed, :color
 
   SIZE = [50, 50]
   RUNE_IMGS = Image.load_tiles("assets/symbols.png", [100, 100], SIZE)
@@ -20,7 +20,7 @@ class Rune
     img.draw(@x + x_offput, @y + y_offput, 1, @color)
   end
 
-  def click(position)
+  def click
   end
 
   def within?(position)
