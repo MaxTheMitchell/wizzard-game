@@ -4,22 +4,13 @@ class Mouse
   SIZE = [25, 25]
   IMG = Image.new("assets/mouse.png",SIZE)
   
-  def initialize(x, y)
-    @x = x
-    @y = y
+  def initialize
   end
 
-  def draw
-    IMG.draw(*position, 2)
-  end
-  
-  def click
-    position
+  def draw(mouse_position)
+    IMG.draw(*mouse_position, 2)
   end
 
   private
 
-  def position
-    [@x.call, @y.call]
-  end
 end

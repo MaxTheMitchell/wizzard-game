@@ -1,4 +1,6 @@
 require_relative "./image"
+require_relative "./color"
+require_relative "./hitbox"
 
 class Rune
   attr_accessor :breed, :color, :x, :y
@@ -11,6 +13,7 @@ class Rune
     @y = position[1] * SIZE[1]
     @breed = breed
     @color = color
+    @hitbox = Hitbox.new(position,SIZE)
   end
 
   def draw(x_offput = 0, y_offput = 0)
@@ -22,7 +25,7 @@ class Rune
   end
 
   def within?(position)
-    within_x_axis?(position[0]) and within_y_axis?(position[1])
+    @hitbox.within?(position)
   end
 
   def self.size
@@ -39,22 +42,6 @@ class Rune
 
   private
 
-  def within_x_axis?(x)
-    x >= @x and x <= end_x
-  end
-
-  def within_y_axis?(y)
-    y >= @y and y <= end_y
-  end
-
-  def end_x
-    @x + width
-  end
-
-  def end_y
-    @y + height
-  end
-
   def width
     SIZE[0]
   end
@@ -68,7 +55,6 @@ class Rune
   end
 
   def self.amount_of_rune_breeds
-    # RUNE_IMGS.length
     3
   end
 
@@ -77,7 +63,6 @@ class Rune
   end
 
   def self.random_color
-    [Gosu::Color::RED.dup, Gosu::Color::BLUE.dup, Gosu::Color::GREEN.dup].sample
-    # Gosu::Color.new(255, rand(255), rand(255), rand(255))
+    [Color.red,Color.green,Color.blue].sample
   end
 end
