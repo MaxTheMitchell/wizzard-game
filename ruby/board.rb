@@ -1,23 +1,33 @@
 require_relative "./rune"
+require_relative "./hitbox"
 
 class Board
   def initialize(position, options = {})
     @x = position[0]
     @y = position[1]
     @runes = options[:runes] ||= random_runes(*options[:size])
+    @hitbox = Hitbox.new position, [width, height]
   end
 
-  def draw
+  def draw(mouse_position)
     @runes.flatten.each { |rune| rune.draw(@x, @y) }
   end
 
-  def click(position, left_click)
+  def click(left_click, position)
     position = position[0] - @x, position[1] - @y
     if left_click
-      spred_color @runes.flatten.find { |rune| rune.within?(position) }
+      spred_color rune_at(position)
     else
-      spred_breed @runes.flatten.find { |rune| rune.within?(position) }
+      spred_breed rune_at(position)
     end
+  end
+
+  def clickable?(mouse_position)
+    within? mouse_position
+  end
+
+  def rune_at(position)
+    @runes.flatten.find { |rune| rune.within?(position) }
   end
 
   def spred_color(rune, spred_runes = [])
@@ -37,7 +47,7 @@ class Board
   end
 
   def within?(position)
-    within_x_axis?(position[0]) and within_y_axis?(position[1])
+    @hitbox.within? position
   end
 
   def ajacent_runes(rune)
@@ -54,24 +64,8 @@ class Board
 
   def random_runes(x, y)
     (0..x).map do |row|
-      (0..y).map { |col| Rune.new([row, col]) }
+      (0..y).map { |col| Rune.new([row * Rune.size, col * Rune.size]) }
     end
-  end
-
-  def within_x_axis?(x)
-    x > @x and x < end_x
-  end
-
-  def within_y_axis?(y)
-    y > @y and y < end_y
-  end
-
-  def end_x
-    @x + width
-  end
-
-  def end_y
-    @y + height
   end
 
   def width

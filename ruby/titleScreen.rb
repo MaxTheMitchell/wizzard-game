@@ -1,11 +1,13 @@
 require_relative "./image"
 require_relative "./button"
 require_relative "./color"
+require_relative "./puzzleScreen"
 
 class TitleScreen
   BACKGROUND_PATH = "assets/title_screen.jpg"
 
   def initialize(size, window)
+    @size = size
     @background = Image.new(BACKGROUND_PATH, size)
     @window = window
     @buttons = [
@@ -26,9 +28,12 @@ class TitleScreen
   end
 
   def click(left_mouse, mouse_position)
-    @buttons.each { |b| b.click left_mouse }
+    @buttons.filter {|b| b.clickable? mouse_position}.each do  |b| 
+      b.click left_mouse
+    end
   end
 
   def start_new_game
+    @window.current_screen = PuzzleScreen.new @size
   end
 end

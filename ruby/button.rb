@@ -6,7 +6,7 @@ class Button
   IMAGE_PATH = "assets/button.png"
   WIDTH_PADDING_PERCENT = 0.05
 
-  def initialize(position, size, text, color, onclick, options = {})
+  def initialize position, size, text, color, onclick, options = {}
     @size = size
     @image = Image.new(IMAGE_PATH, size)
     @position = position
@@ -17,7 +17,7 @@ class Button
     @hitbox = options[:hitbox] ||= Hitbox.new(position, size)
   end
 
-  def draw(mouse_position)
+  def draw mouse_position 
     @image.draw(
       *@position,
           1,
@@ -35,23 +35,27 @@ class Button
     @onclick.call
   end
 
+  def clickable? mouse_position
+    within? mouse_position
+  end
+
   private
 
-  def current_dislay_color(mouse_position)
+  def current_dislay_color mouse_position 
     return @hover_color if within? mouse_position
     @color
   end
 
-  def within?(position)
+  def within? position 
     @hitbox.within? position
   end
 
-  def text_position(image_position = @position)
+  def text_position image_position = @position
     [image_position[0] + text_size[0] * WIDTH_PADDING_PERCENT,
      image_position[1]]
   end
 
-  def text_size(button_size = @size)
+  def text_size button_size = @size
     [button_size[0].to_f * (1 - WIDTH_PADDING_PERCENT * 2),
      button_size[1]]
   end

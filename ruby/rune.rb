@@ -9,15 +9,14 @@ class Rune
   RUNE_IMGS = Image.load_tiles("assets/symbols.png", [100, 100], SIZE)
 
   def initialize(position, breed = Rune.random_rune, color = Rune.random_color)
-    @x = position[0] * SIZE[0]
-    @y = position[1] * SIZE[1]
+    @x = position[0]
+    @y = position[1]
     @breed = breed
     @color = color
-    @hitbox = Hitbox.new(position,SIZE)
+    @hitbox = Hitbox.new(position, SIZE)
   end
 
   def draw(x_offput = 0, y_offput = 0)
-    puts "fuck #{@breed}"if img == nil
     img.draw(@x + x_offput, @y + y_offput, 1, @color)
   end
 
@@ -25,7 +24,7 @@ class Rune
   end
 
   def within?(position)
-    @hitbox.within?(position)
+    @hitbox.within? position
   end
 
   def self.size
@@ -49,7 +48,7 @@ class Rune
   def height
     SIZE[1]
   end
-  
+
   def img
     RUNE_IMGS[@breed]
   end
@@ -63,6 +62,6 @@ class Rune
   end
 
   def self.random_color
-    [Color.red,Color.green,Color.blue].sample
+    [Color.red, Color.green, Color.blue].sample
   end
 end
