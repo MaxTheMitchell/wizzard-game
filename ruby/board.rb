@@ -26,9 +26,7 @@ class Board
     within? mouse_position
   end
 
-  def rune_at(position)
-    @runes.flatten.find { |rune| rune.within?(position) }
-  end
+  private
 
   def spred_color(rune, spred_runes = [])
     spred_runes << rune
@@ -55,7 +53,9 @@ class Board
      get_rune(rune.x, rune.y - 1), get_rune(rune.x, rune.y + 1)].filter { |rune| rune != nil }
   end
 
-  private
+  def rune_at(position)
+    @runes.flatten.find { |rune| rune.within?(position) }
+  end
 
   def get_rune(x, y)
     return nil if x < 0 or y < 0 or x >= @runes.length or y >= @runes[0].length

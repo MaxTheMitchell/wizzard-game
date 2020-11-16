@@ -1,4 +1,6 @@
 require_relative "./board"
+require_relative "./rune"
+require_relative "./color"
 
 class PuzzleScreen
   def initialize(size)
