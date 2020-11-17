@@ -2,6 +2,7 @@ require_relative "./image"
 require_relative "./button"
 require_relative "./color"
 require_relative "./puzzleScreen"
+require_relative "./characterSheet"
 
 class TitleScreen
   BACKGROUND_PATH = "assets/title_screen.jpg"
@@ -20,11 +21,20 @@ class TitleScreen
         hover_color: Color.rgba(255, 100, 255),
       ),
     ]
+    @wiz = CharacterSheet.new({
+      path:"assets/wiz_template.png",
+      tile_size: [100,200],
+      img_size: [200,400]
+    })
   end
 
   def draw(mouse_position)
     @background.draw(0, 0, 0)
     @buttons.each { |b| b.draw(mouse_position) }
+    @wiz.draw 500,400,0
+    @wiz.draw 700,400,1
+    @wiz.draw 900,400,2
+    @wiz.draw 1100,400,3
   end
 
   def click(left_mouse, mouse_position)

@@ -2,6 +2,7 @@ require_relative "./board"
 require_relative "./rune"
 require_relative "./color"
 
+
 class PuzzleScreen
   def initialize(size)
     @elements = [Board.new([100, 200], size: [20, 10])]
