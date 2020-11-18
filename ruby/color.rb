@@ -1,6 +1,6 @@
 require "gosu"
 
-class Color
+module Color
   def self.rgba(r, g, b, a = 255)
     Gosu::Color.rgba(r, g, b, a)
   end

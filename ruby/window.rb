@@ -1,6 +1,6 @@
 require "gosu"
 require_relative "./mouse"
-require_relative "./titleScreen"
+require_relative "./screens"
 
 class Window < Gosu::Window
   LEFT_MOUSE_ID = 256
@@ -12,7 +12,7 @@ class Window < Gosu::Window
   def initialize
     super(*SIZE, update_interval: 10)
     self.caption = "game prototype"
-    @current_screen = TitleScreen.new(SIZE, self)
+    @current_screen = Screens.new(SIZE,self).title_screen
     @mouse = Mouse.new
   end
 

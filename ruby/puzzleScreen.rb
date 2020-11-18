@@ -5,7 +5,7 @@ require_relative "./color"
 
 class PuzzleScreen
   def initialize(size)
-    @elements = [Board.new([100, 200], size: [20, 10])]
+    @elements = 
   end
 
   def draw(mouse_position)
