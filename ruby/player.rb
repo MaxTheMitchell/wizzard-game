@@ -1,7 +1,6 @@
 class Player
   def initialize(options)
     @character_sheet = options[:character_sheet]
-    @width, @height = options[:size] ||= @character_sheet
     @x, @y = options[:position] ||= [0, 0]
     @z = options[:z] ||= 2
     @direction = options[:direction] ||= :s

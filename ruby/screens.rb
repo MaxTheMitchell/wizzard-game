@@ -38,8 +38,9 @@ class Screens
         character_sheet: CharacterSheet.new({
           path: "assets/wiz_character_sheet.png",
           tile_size: [600, 1050],
-          img_size: [200, 400],
+          img_size: [100, 200],
         }),
+        direction: :e,
       }),
     ])
   end

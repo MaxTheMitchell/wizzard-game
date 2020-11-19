@@ -5,12 +5,13 @@ require_relative "./screens"
 class Window < Gosu::Window
   LEFT_MOUSE_ID = 256
   RIGHT_MOUSE_ID = 258
-  SIZE = 1500, 1000
+  ESCAPE = 41
+  SIZE = 1920, 1080
 
   attr_writer :current_screen
 
   def initialize
-    super(*SIZE, update_interval: 10)
+    super(*SIZE, {update_interval: 10,fullscreen:true})
     self.caption = "game prototype"
     @current_screen = Screens.new(SIZE,self).title_screen
     @mouse = Mouse.new
@@ -30,7 +31,7 @@ class Window < Gosu::Window
   def button_down(id)
     click(true, mouse_position) if id == LEFT_MOUSE_ID
     click(false, mouse_position) if id == RIGHT_MOUSE_ID
-    # puts id
+    close! if id == ESCAPE
   end
 
   def mouse_position

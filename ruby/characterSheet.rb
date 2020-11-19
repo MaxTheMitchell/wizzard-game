@@ -3,7 +3,7 @@ require_relative "./image"
 class CharacterSheet
 
   STEPS = 3
-  STEP_INTERVAL = 30
+  STEP_INTERVAL = 10
   DIRECTION_VALS = {
     s: 0,
     n: 1,
