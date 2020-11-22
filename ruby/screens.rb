@@ -47,7 +47,7 @@ class Screens
       Background.new(size, path: "assets/tripy.jpeg"),
       Textbox.new({
         size: [size[0], size[1] / 10],
-        position: [0, size[1] * (9 / 10)],
+        position: [0, size[1] * 0.9],
         text: Text.new(text: "test textbox"),
       }),
     ])

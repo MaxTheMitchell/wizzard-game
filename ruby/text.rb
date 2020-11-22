@@ -7,11 +7,12 @@ class Text
     @x = options[:x] ||= 0
     @y = options[:y] ||= 0
     @z = options[:z] ||= 1
-    @width = options[:width] ||= 100
-    @hieght = options[:height] ||= 100
+    @width = options[:width] ||= @font.text_width(@text)
+    @hieght = options[:height] ||= @font.height
   end
 
   def draw(options = {})
+
     @font.draw_text(
       options[:text] ||= @text,
       options[:x] ||= @x,
