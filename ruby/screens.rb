@@ -40,7 +40,7 @@ class Screens
           tile_size: [600, 1050],
           img_size: [100, 200],
         }),
-        direction: :e,
+        direction: :ne,
       }),
     ])
   end

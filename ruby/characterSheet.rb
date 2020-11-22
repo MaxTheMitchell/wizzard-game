@@ -1,14 +1,17 @@
 require_relative "./image"
 
 class CharacterSheet
-
   STEPS = 3
   STEP_INTERVAL = 10
   DIRECTION_VALS = {
-    s: 0,
-    n: 1,
+    n: 0,
+    e: 1,
     w: 2,
-    e: 3,
+    s: 3,
+    ne: 4,
+    nw: 5,
+    sw: 6,
+    se: 7,
   }
 
   def initialize(options = {})
@@ -22,21 +25,21 @@ class CharacterSheet
     current_img(direction).draw(x, y, z)
   end
 
-  def title_center
+  def tile_center
     current_img(:n).img_center
   end
 
   private
 
   def current_img(direction)
-    @imgs[DIRECTION_VALS[direction] * STEPS + step]
+    @imgs[(DIRECTION_VALS[direction]) * STEPS + step]
   end
 
-  def width 
+  def width
     current_img(:n).width
   end
 
-  def height 
+  def height
     current_img(:n).height
   end
 
