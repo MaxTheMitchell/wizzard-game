@@ -21,13 +21,17 @@ class Player
   def clickable?(mouse_position) true end
 
   def click(left_click, mouse_position)
-    @target_position = mouse_position if left_click
+    @target_position = new_target_pos(mouse_position) if left_click
   end
 
   private
 
   def img_center
     @character_sheet.tile_center
+  end
+
+  def new_target_pos(mouse_position)
+    [mouse_position[0]-img_center[0],mouse_position[1]-img_center[1]]
   end
 
   def direction(target_position = @target_position, x = @x, y = @y)
