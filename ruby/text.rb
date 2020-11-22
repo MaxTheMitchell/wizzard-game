@@ -12,7 +12,6 @@ class Text
   end
 
   def draw(options = {})
-
     @font.draw_text(
       options[:text] ||= @text,
       options[:x] ||= @x,

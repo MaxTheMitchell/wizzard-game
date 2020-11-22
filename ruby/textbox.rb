@@ -18,6 +18,7 @@ class Textbox
     @text.draw({
       x: @x + @width * TEXT_SPACING_PERCENT,
       y: @y + @height * TEXT_SPACING_PERCENT,
+      height: @height / 3,
     })
   end
 
