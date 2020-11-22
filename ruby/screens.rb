@@ -5,6 +5,8 @@ require_relative "./color"
 require_relative "./player"
 require_relative "./background"
 require_relative "./characterSheet"
+require_relative "./textbox"
+require_relative "./text"
 
 BACKGROUND_PATH = "assets/title_screen.jpg"
 
@@ -41,6 +43,12 @@ class Screens
           img_size: [100, 200],
         }),
         direction: :ne,
+      }),
+      Background.new(size, path: "assets/tripy.jpeg"),
+      Textbox.new({
+        size: [size[0], size[1] / 10],
+        position: [0, size[1] * (9 / 10)],
+        text: Text.new(text: "test textbox"),
       }),
     ])
   end

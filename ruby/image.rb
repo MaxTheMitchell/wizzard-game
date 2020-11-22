@@ -3,20 +3,20 @@ require "gosu"
 class Image
   attr_reader :width, :height
 
-  def initialize(path, size, options = {})
-    @img = options[:img] ||= Gosu::Image.new(path)
+  def initialize(options = {})
+    @img = options[:img] ||= Gosu::Image.new(options[:path])
     @x, @y = options[:position] ||= [0, 0]
     @z = options[:z] ||= 1
-    @width, @height = size
+    @width, @height = options[:size] ||= [0,0]
   end
 
-  def draw(x = @x, y = @y, z = @z, color = 0xff_ffffff)
-    @img.draw(x, y, z, x_scale, y_scale, color)
+  def draw(x = @x, y = @y, z = @z, width= @width, height=@height, color = 0xff_ffffff)
+    @img.draw(x, y, z, x_scale(width), y_scale(height), color)
   end
 
   def self.load_tiles(path, tile_size, img_size)
     Gosu::Image::load_tiles(path, *tile_size).map do |img|
-      new(nil, img_size, img: img)
+      new({img: img, size:img_size})
     end
   end
 
@@ -26,11 +26,11 @@ class Image
 
   private
 
-  def x_scale
-    @width.to_f / @img.width
+  def x_scale(width = @width)
+    width.to_f / @img.width
   end
 
-  def y_scale
-    @height.to_f / @img.height
+  def y_scale(height = @height)
+    height.to_f / @img.height
   end
 end

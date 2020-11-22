@@ -1,10 +1,7 @@
 require_relative "../ruby/image.rb"
 
 describe "An Image" do
-  let(:image) { Image.new("spec/test.png", [10, 10]) }
-  it "exists" do
-    Image.new("spec/test.png", [10, 10])
-  end
+  let(:image) { Image.new(path:"spec/test.png") }
 
   it "can be drawn" do
     expect(image).to respond_to(:draw)

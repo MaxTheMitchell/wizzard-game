@@ -8,7 +8,7 @@ class Button
 
   def initialize(position, size, text, color, onclick, options = {})
     @size = size
-    @image = Image.new(IMAGE_PATH, size)
+    @image = Image.new(path:IMAGE_PATH)
     @position = position
     @color = color
     @text = Text.new(text: text)
@@ -21,7 +21,8 @@ class Button
     @image.draw(
       *@position,
           1,
-      current_dislay_color(mouse_position)
+          *@size,
+          current_dislay_color(mouse_position)
     )
     @text.draw({
       x: text_position[0],
@@ -31,7 +32,7 @@ class Button
     })
   end
 
-  def click(left_click = true, mouse_position=[0,0])
+  def click(left_click = true, mouse_position = [0, 0])
     @onclick.call
   end
 
