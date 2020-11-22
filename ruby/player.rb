@@ -15,7 +15,7 @@ class Player
 
   def draw(mouse_position)
     update if target_dirrent_from_pos?  
-    @character_sheet.draw @x, @y, @direction
+    @character_sheet.draw @x, @y, @direction, target_dirrent_from_pos? 
   end
 
   def clickable?(mouse_position) true end

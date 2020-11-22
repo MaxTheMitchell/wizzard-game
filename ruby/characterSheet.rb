@@ -21,18 +21,19 @@ class CharacterSheet
     @step = options[:step] ||= 0
   end
 
-  def draw(x, y, direction)
-    current_img(direction).draw(x, y, z)
+  def draw(x, y, direction, moving)
+    current_img(direction, moving).draw(x, y, z)
   end
 
   def tile_center
-    current_img(:n).img_center
+    current_img(:n, false).img_center
   end
 
   private
 
-  def current_img(direction)
-    @imgs[(DIRECTION_VALS[direction]) * STEPS + step]
+  def current_img(direction, moving)
+    @imgs[
+      (DIRECTION_VALS[direction]) * STEPS + (moving ? step : 0)]
   end
 
   def width
@@ -57,7 +58,7 @@ class CharacterSheet
 
   def step
     @step += 1
-    @step = 0 if @step > (STEPS) * STEP_INTERVAL - 1
-    @step / STEP_INTERVAL
+    @step = 0 if @step > (STEPS * 2 - 2) * STEP_INTERVAL - 1
+    return [0,1,0,2][@step/STEP_INTERVAL]
   end
 end
