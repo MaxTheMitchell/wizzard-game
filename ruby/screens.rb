@@ -7,6 +7,7 @@ require_relative "./background"
 require_relative "./characterSheet"
 require_relative "./textbox"
 require_relative "./text"
+require_relative "./image"
 
 BACKGROUND_PATH = "assets/title_screen.jpg"
 
@@ -24,7 +25,7 @@ class Screens
         [size[0] * 0.2, size[1] * 0.1],
         "Start New Game",
         Color.rgba(255, 0, 255),
-        -> { window.current_screen = test_screen_movment },
+        -> { window.current_screen = graduation },
         hover_color: Color.rgba(255, 100, 255),
       ),
     ])
@@ -32,6 +33,25 @@ class Screens
 
   def puzzle_screen(size = @size, window = @window)
     Screen.new([Board.new([100, 200], size: [20, 10])])
+  end
+
+  def graduation(size = @size, window = @window)
+    Screen.new([
+      Image.new({
+        path: "assets/parent1.png",
+        size: [size[0] / 2, size[1]],
+        position: [0, 0],
+        color: Color.rgba(173, 216, 230),
+        static: true,
+      }),
+      Image.new({
+        path: "assets/parent2.png",
+        size: [size[0] / 2, size[1]],
+        position: [size[0] / 2, 0],
+        color: Color.rgba(230, 186, 172),
+        static: true,
+      }),
+    ])
   end
 
   def test_screen_movment(size = @size, window = @window)
@@ -46,8 +66,8 @@ class Screens
       }),
       Background.new(size, path: "assets/tripy.jpeg"),
       Textbox.new({
-        size: [size[0]-size[0]*0.1,size[1]*0.2],
-        position: [size[0]*0.05, size[1] - size[1]*0.2],
+        size: [size[0] - size[0] * 0.1, size[1] * 0.2],
+        position: [size[0] * 0.05, size[1] - size[1] * 0.2],
         text: Text.new(text: "test textbox test textbox test textbox test textbox test textbox test textbox"),
       }),
     ])

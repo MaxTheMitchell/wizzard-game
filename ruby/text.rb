@@ -44,8 +44,8 @@ class Text
   end
 
   def scale_x(width = @width, text = @text)
-    return width.to_f / @font.text_width(text) if width != nil
-    1
+    return 1 if width == nil
+    width.to_f / @font.text_width(text)
   end
 
   def scale_y(hieght = @hieght)
