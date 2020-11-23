@@ -19,7 +19,7 @@ class Text
       options[:x] ||= @x,
       options[:y] ||= @y,
       options[:z] ||= @z,
-      scale_x(options[:width] ||= @width, options[:text] ||= @text),
+      scale_x(options[:width] ||= nil, options[:text] ||= @text),
       scale_y(options[:height] ||= @hieght)
     )
   end
@@ -44,7 +44,7 @@ class Text
   end
 
   def scale_x(width = @width, text = @text)
-    width.to_f / @font.text_width(text)
+    return width.to_f / @font.text_width(text) if width != nil
     1
   end
 
