@@ -1,6 +1,7 @@
 class Screen
-  def initialize(elements)
+  def initialize(elements, options = {})
     @elements = elements
+    @onclick_funcs = options[:onclick_funcs] ||= []
   end
 
   def draw(mouse_position)
@@ -10,6 +11,7 @@ class Screen
   def click(left_click, mouse_position)
     @elements.filter { |e| e.clickable? mouse_position }.each do
       |e| e.click left_click, mouse_position end
+    @onclick_funcs.each { |f| f.call(left_click, mouse_position) }
   end
 
   def over_clickable?(mouse_position)

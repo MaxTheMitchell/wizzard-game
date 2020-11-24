@@ -4,7 +4,7 @@ class Text
   attr_accessor :text
 
   def initialize(options = {})
-    @font = Gosu::Font.new(options[:height] ||= 100)
+    @font = Gosu::Font.new(options[:height] ||= 50)
     @text = options[:text] ||= ""
     @x = options[:x] ||= 0
     @y = options[:y] ||= 0
@@ -29,7 +29,9 @@ class Text
   end
 
   def adjust_to_width(width)
-    @text = break_up_to_fit_width(width)
+    self_copy = self.dup
+    self_copy.text = break_up_to_fit_width(width)
+    self_copy
   end
 
   private
@@ -40,7 +42,7 @@ class Text
     while text_width(current_line.join(' ')) > width
       next_line << current_line.pop
     end
-    "#{current_line.join(' ')}\n#{break_up_to_fit_width(width,next_line)}"
+    "#{current_line.join(' ')}\n#{break_up_to_fit_width(width,next_line.reverse)}"
   end
 
   def scale_x(width = @width, text = @text)

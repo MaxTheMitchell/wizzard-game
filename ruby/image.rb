@@ -1,6 +1,7 @@
 require "gosu"
 
 class Image
+  attr_accessor :color
   attr_reader :width, :height
 
   def initialize(options = {})

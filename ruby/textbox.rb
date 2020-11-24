@@ -3,7 +3,9 @@ require_relative "./image"
 
 class Textbox
   BACKGROUND_IMG_PATH = "assets/textbox.png"
-  TEXT_SPACING_PERCENT = 0.05
+  TEXT_SPACING_PERCENT = 0.07
+
+  attr_reader :color
 
   def initialize(options = {})
     @width, @height = options[:size] ||= [0, 0]
@@ -16,8 +18,7 @@ class Textbox
 
   def draw(mouse_position, x = @x, y = @y, width = @width, height = @height, color = @color)
     @background.draw(x, y, 1, width, height, color)
-    @text.adjust_to_width(width - width * TEXT_SPACING_PERCENT)
-    @text.draw({
+    @text.adjust_to_width(width - width * TEXT_SPACING_PERCENT).draw({
       x: x + width * TEXT_SPACING_PERCENT,
       y: y + height * TEXT_SPACING_PERCENT,
       height: height / 3,

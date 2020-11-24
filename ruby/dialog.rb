@@ -1,7 +1,7 @@
 class Dialog
   def initialize(options = {})
     @textboxes = options[:textboxes]
-    @current_textbox = options[:current_textbox] ||= 0
+    @current_textbox_index = options[:current_textbox_index] ||= 0
     @position = options[:position]
     @size = options[:size]
   end
@@ -9,11 +9,15 @@ class Dialog
   def clickable?(mouse_position) true end
 
   def click(left_click, mouse_position)
-    @current_textbox += 1
+    @current_textbox_index += 1
   end
 
   def draw(mouse_pos)
-    @textboxes[@current_textbox].draw(nil, x, y, width, hieght) if more_textboxes?
+    current_textbox.draw(nil, x, y, width, hieght) if more_textboxes?
+  end
+
+  def current_textbox
+    @textboxes[@current_textbox_index]
   end
 
   private
@@ -23,7 +27,7 @@ class Dialog
   def width() @size[0] end
   def hieght() @size[1] end
 
-  def more_textboxes?(current_textbox = @current_textbox, textboxes = @textboxes)
-    current_textbox < textboxes.length
+  def more_textboxes?(current_textbox_index = @current_textbox_index, textboxes = @textboxes)
+    current_textbox_index < textboxes.length
   end
 end

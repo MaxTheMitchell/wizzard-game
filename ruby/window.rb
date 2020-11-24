@@ -13,7 +13,7 @@ class Window < Gosu::Window
   def initialize
     super(*SIZE, { update_interval: 10, fullscreen: true })
     self.caption = "game prototype"
-    @current_screen = Screens.new(SIZE, self).title_screen
+    @current_screen = Screens.new(SIZE, self).graduation
     @mouse = Mouse.new
   end
 
