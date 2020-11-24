@@ -6,6 +6,7 @@ require_relative "./player"
 require_relative "./background"
 require_relative "./characterSheet"
 require_relative "./textbox"
+require_relative "./dialog"
 require_relative "./text"
 require_relative "./image"
 
@@ -51,6 +52,12 @@ class Screens
         color: Color.rgba(230, 186, 172),
         static: true,
       }),
+      Dialog.new({ textboxes: [
+        Textbox.new(text: Text.new(text: "foo")),
+        Textbox.new(text: Text.new(text: "bar")),
+      ],
+                   size: [size[0] - size[0] * 0.1, size[1] * 0.2],
+                   position: [size[0] * 0.05, size[1] - size[1] * 0.2] }),
     ])
   end
 
@@ -65,11 +72,7 @@ class Screens
         direction: :ne,
       }),
       Background.new(size, path: "assets/tripy.jpeg"),
-      Textbox.new({
-        size: [size[0] - size[0] * 0.1, size[1] * 0.2],
-        position: [size[0] * 0.05, size[1] - size[1] * 0.2],
-        text: Text.new(text: "test textbox test textbox test textbox test textbox test textbox test textbox"),
-      }),
+
     ])
   end
 end
