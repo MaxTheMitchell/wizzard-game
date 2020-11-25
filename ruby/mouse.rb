@@ -3,9 +3,8 @@ require_relative "./color"
 
 class Mouse
   SIZE = [25, 25]
-  IMG_PATH = "assets/mouse.png"
-  IMG_CLICKABLE = Image.new(path: "assets/mouse_point.png")
-  IMG = Image.new(path: "assets/mouse.png")
+  IMG_CLICKABLE = Image.new(path: "assets/imgs/mouse_point.png")
+  IMG = Image.new(path: "assets/imgs/mouse.png")
   COLOR = Color.rgba(100, 250, 150)
 
   def draw(mouse_position, clickable)

@@ -3,7 +3,7 @@ require_relative "./text"
 require_relative "./hitbox"
 
 class Button
-  IMAGE_PATH = "assets/button.png"
+  IMAGE_PATH = "assets/imgs/button.png"
   WIDTH_PADDING_PERCENT = 0.05
 
   def initialize(position, size, text, color, onclick, options = {})

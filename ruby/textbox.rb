@@ -2,7 +2,7 @@ require_relative "./color"
 require_relative "./image"
 
 class Textbox
-  BACKGROUND_IMG_PATH = "assets/textbox.png"
+  BACKGROUND_IMG_PATH = "assets/imgs/textbox.png"
   TEXT_SPACING_PERCENT = 0.07
 
   attr_reader :color

@@ -18,7 +18,7 @@ class Screens
 
   def title_screen(size = @size, window = @window)
     Screen.new([
-      Background.new(size, path: "assets/title_screen.jpg"),
+      Background.new(size, path: "assets/imgs/title_screen.jpg"),
       Button.new(
         [size[0] * 0.7, size[1] * 0.3],
         [size[0] * 0.2, size[1] * 0.1],
@@ -40,7 +40,7 @@ class Screens
     player_text_color = Color.rgba(40, 30, 50)
 
     father = Image.new({
-      path: "assets/parent1.png",
+      path: "assets/imgs/parent1.png",
       size: [size[0] / 2, size[1]],
       position: [0, 0],
       color: Color.rgba(173, 216, 230),
@@ -48,7 +48,7 @@ class Screens
     })
 
     mother = Image.new({
-      path: "assets/parent2.png",
+      path: "assets/imgs/parent2.png",
       size: [size[0] / 2, size[1]],
       position: [size[0] / 2, 0],
       color: Color.black,
@@ -100,13 +100,13 @@ class Screens
     Screen.new([
       Player.new({
         character_sheet: CharacterSheet.new({
-          path: "assets/wiz_character_sheet.png",
+          path: "assets/imgs/character_sheets/wiz_character_sheet.png",
           tile_size: [600, 1050],
           img_size: [100, 200],
         }),
         direction: :ne,
       }),
-      Background.new(size, path: "assets/tripy.jpeg"),
+      Background.new(size, path: "assets/imgs/tripy.jpeg"),
 
     ])
   end
