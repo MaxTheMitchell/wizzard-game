@@ -9,7 +9,11 @@ class Dialog
   def clickable?(mouse_position) true end
 
   def click(left_click, mouse_position)
-    @current_textbox_index += 1
+    if current_textbox.is_fully_drawn?
+      @current_textbox_index += 1
+    else
+      current_textbox.display_all_text
+    end
   end
 
   def draw(mouse_pos)
