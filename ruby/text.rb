@@ -28,21 +28,22 @@ class Text
     font.text_width(text)
   end
 
-  def adjust_to_width(width)
+  def adjust_to_width(width, text = self.text)
     self_copy = self.dup
-    self_copy.text = break_up_to_fit_width(width)
+    self_copy.text = break_up_to_fit_width(width, text)
     self_copy
   end
 
   private
 
-  def break_up_to_fit_width(width,current_line=text.split)
-    return "" if current_line == [] 
+  def break_up_to_fit_width(width, text = self.text)
+    return "" if text == ""
+    current_line = text.split
     next_line = []
-    while text_width(current_line.join(' ')) > width
+    while text_width(current_line.join(" ")) > width
       next_line << current_line.pop
     end
-    "#{current_line.join(' ')}\n#{break_up_to_fit_width(width,next_line.reverse)}"
+    "#{current_line.join(" ")}\n#{break_up_to_fit_width(width, next_line.reverse.join(" "))}"
   end
 
   def scale_x(width = @width, text = @text)

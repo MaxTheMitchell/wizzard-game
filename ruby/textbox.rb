@@ -13,16 +13,17 @@ class Textbox
     @text = options[:text]
     @color = options[:color] ||= Color.rgba 0, 0, 255, 200
     @background = options[:background] ||= Image.new(path: BACKGROUND_IMG_PATH)
-    
+    @drawn_text_length = options[:drawn_text_length] ||= 0
   end
 
   def draw(mouse_position, x = @x, y = @y, width = @width, height = @height, color = @color)
     @background.draw(x, y, 1, width, height, color)
-    @text.adjust_to_width(width - width * TEXT_SPACING_PERCENT).draw({
+    @text.adjust_to_width(width - width * TEXT_SPACING_PERCENT*2,@text.text[..@drawn_text_length]).draw({
       x: x + width * TEXT_SPACING_PERCENT,
       y: y + height * TEXT_SPACING_PERCENT,
       height: height / 3,
     })
+    @drawn_text_length += 1
   end
 
   def clickable?(mouse_position) false end

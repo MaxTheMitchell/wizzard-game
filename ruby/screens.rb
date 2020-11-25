@@ -10,8 +10,6 @@ require_relative "./dialog"
 require_relative "./text"
 require_relative "./image"
 
-BACKGROUND_PATH = "assets/title_screen.jpg"
-
 class Screens
   def initialize(size, window)
     @size = size
@@ -20,7 +18,7 @@ class Screens
 
   def title_screen(size = @size, window = @window)
     Screen.new([
-      Background.new(size, path: BACKGROUND_PATH),
+      Background.new(size, path: "assets/title_screen.jpg"),
       Button.new(
         [size[0] * 0.7, size[1] * 0.3],
         [size[0] * 0.2, size[1] * 0.1],
@@ -37,15 +35,15 @@ class Screens
   end
 
   def graduation(size = @size, window = @window)
-    father_text_color = Color.rgba(173, 216, 230)
-    mother_text_color = Color.rgba(230, 186, 172)
+    father_text_color = Color.rgba(173/1.2, 216/1.2, 230/1.2)
+    mother_text_color = Color.rgba(230/1.2, 186/1.2, 172/1.2)
     player_text_color = Color.rgba(40, 30, 50)
 
     father = Image.new({
       path: "assets/parent1.png",
       size: [size[0] / 2, size[1]],
       position: [0, 0],
-      color: Color.black,
+      color: Color.rgba(173, 216, 230),
       static: true,
     })
 
@@ -82,13 +80,17 @@ class Screens
     Screen.new(
       [father, mother, dialog],
       onclick_funcs: [->(a, b) {
-        father.color = Color.black
-        mother.color = Color.black
-        case dialog.current_textbox.color
-        when father_text_color
-          father.color = father_text_color
-        when mother_text_color
-          mother.color = mother_text_color
+        if dialog.more_textboxes?
+          father.color = Color.black
+          mother.color = Color.black
+          case dialog.current_textbox.color
+          when father_text_color
+            father.color = Color.rgba(173, 216, 230)
+          when mother_text_color
+            mother.color = Color.rgba(230, 186, 172)
+          end
+        else
+          window.current_screen = test_screen_movment
         end
       }],
     )

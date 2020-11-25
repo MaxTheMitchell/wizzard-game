@@ -20,14 +20,14 @@ class Dialog
     @textboxes[@current_textbox_index]
   end
 
+  def more_textboxes?(current_textbox_index = @current_textbox_index, textboxes = @textboxes)
+    current_textbox_index < textboxes.length
+  end
+
   private
 
   def x() @position[0] end
   def y() @position[1] end
   def width() @size[0] end
   def hieght() @size[1] end
-
-  def more_textboxes?(current_textbox_index = @current_textbox_index, textboxes = @textboxes)
-    current_textbox_index < textboxes.length
-  end
 end
