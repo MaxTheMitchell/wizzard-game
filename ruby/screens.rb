@@ -107,7 +107,14 @@ class Screens
         direction: :ne,
       }),
       Background.new(size, path: "assets/imgs/tripy.jpeg"),
-
+      Button.new(
+        [size[0] * 0.7, size[1] * 0.3],
+        [size[0] * 0.2, size[1] * 0.1],
+        "Test Puzzle",
+        Color.rgba(255, 0, 255),
+        -> { window.current_screen = puzzle_screen },
+        hover_color: Color.rgba(255, 100, 255),
+      ),
     ])
   end
 end

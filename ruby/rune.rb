@@ -17,7 +17,7 @@ class Rune
   end
 
   def draw(x_offput = 0, y_offput = 0)
-    img.draw(@x + x_offput, @y + y_offput, 1, @color)
+    img.draw(@x + x_offput, @y + y_offput, 1, *SIZE, @color)
   end
 
   def click
