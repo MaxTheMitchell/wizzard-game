@@ -13,7 +13,7 @@ class Window < Gosu::Window
   def initialize
     super(*SIZE, { update_interval: 10, fullscreen: true })
     self.caption = "game prototype"
-    @current_screen = Screens.new(SIZE, self).title_screen
+    @current_screen = Screens.new(SIZE, self).test_screen_movment
     @mouse = Mouse.new
   end
 
@@ -29,9 +29,14 @@ class Window < Gosu::Window
   end
 
   def button_down(id)
-    click(true, mouse_position) if id == LEFT_MOUSE_ID
-    click(false, mouse_position) if id == RIGHT_MOUSE_ID
-    close! if id == ESCAPE
+    case id
+    when LEFT_MOUSE_ID
+      click(true, mouse_position)
+    when RIGHT_MOUSE_ID
+      click(false, mouse_position)
+    when ESCAPE
+      close!
+    end
   end
 
   def mouse_position

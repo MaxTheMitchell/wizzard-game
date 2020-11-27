@@ -29,19 +29,19 @@ class CharacterSheet
     current_img(:n, false).img_center
   end
 
+  def width
+    current_img(:n, false).width
+  end
+
+  def height
+    current_img(:n, false).height
+  end
+
   private
 
   def current_img(direction, moving)
     @imgs[
       (DIRECTION_VALS[direction]) * STEPS + (moving ? step : 0)]
-  end
-
-  def width
-    current_img(:n).width
-  end
-
-  def height
-    current_img(:n).height
   end
 
   def x
@@ -59,6 +59,6 @@ class CharacterSheet
   def step
     @step += 1
     @step = 0 if @step > (STEPS * 2 - 2) * STEP_INTERVAL - 1
-    return [0,1,0,2][@step/STEP_INTERVAL]
+    return [0, 1, 0, 2][@step / STEP_INTERVAL]
   end
 end

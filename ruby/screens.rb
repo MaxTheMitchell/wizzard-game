@@ -9,6 +9,7 @@ require_relative "./textbox"
 require_relative "./dialog"
 require_relative "./text"
 require_relative "./image"
+require_relative "./map"
 
 class Screens
   def initialize(size, window)
@@ -35,8 +36,8 @@ class Screens
   end
 
   def graduation(size = @size, window = @window)
-    father_text_color = Color.rgba(173/1.2, 216/1.2, 230/1.2)
-    mother_text_color = Color.rgba(230/1.2, 186/1.2, 172/1.2)
+    father_text_color = Color.rgba(173 / 1.2, 216 / 1.2, 230 / 1.2)
+    mother_text_color = Color.rgba(230 / 1.2, 186 / 1.2, 172 / 1.2)
     player_text_color = Color.rgba(40, 30, 50)
 
     father = Image.new({
@@ -97,24 +98,24 @@ class Screens
   end
 
   def test_screen_movment(size = @size, window = @window)
-    Screen.new([
-      Player.new({
-        character_sheet: CharacterSheet.new({
-          path: "assets/imgs/character_sheets/wiz_character_sheet.png",
-          tile_size: [600, 1050],
-          img_size: [100, 200],
-        }),
-        direction: :ne,
+    player = Player.new({
+      character_sheet: CharacterSheet.new({
+        path: "assets/imgs/character_sheets/wiz_character_sheet.png",
+        tile_size: [600, 1050],
+        img_size: [100, 200],
       }),
-      Background.new(size, path: "assets/imgs/tripy.jpeg"),
-      Button.new(
-        [size[0] * 0.7, size[1] * 0.3],
-        [size[0] * 0.2, size[1] * 0.1],
-        "Test Puzzle",
-        Color.rgba(255, 0, 255),
-        -> { window.current_screen = puzzle_screen },
-        hover_color: Color.rgba(255, 100, 255),
-      ),
+      direction: :ne,
+    })
+    Screen.new([
+      # player,
+      Map.new({
+        player: player,
+        window_size: size,
+        img: Image.new({
+          path: "assets/imgs/test_map.png",
+          size: [3840, 2160],
+        }),
+      }),
     ])
   end
 end
