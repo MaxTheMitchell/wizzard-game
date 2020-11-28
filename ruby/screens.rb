@@ -107,9 +107,10 @@ class Screens
             img_size: [100, 200],
           }),
           direction: :ne,
+          position: [500, 500],
         }),
         window_size: size,
-        file_path: "assets/maps/test_map_map.json"
+        file_path: "assets/maps/test_map_map.json",
       }),
     ])
   end

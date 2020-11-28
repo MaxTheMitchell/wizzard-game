@@ -33,6 +33,10 @@ class Player
     @hitbox.within?(position)
   end
 
+  def position 
+    [x,y]
+  end
+
   private
 
   def img_center

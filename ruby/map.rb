@@ -1,8 +1,11 @@
 require "json"
 require_relative "./image"
 require_relative "./hitbox"
+require_relative "./grid"
 
 class Map
+  GRID_SIDE_LENGTH = 400
+
   def initialize(options = {})
     if options[:file_path] != nil
       @img, @walls = create_from_file(options[:file_path])
@@ -10,7 +13,6 @@ class Map
       @img = options[:img]
       @walls = options[:walls]
     end
-    puts @walls
     @window_size = options[:window_size]
     @player = options[:player]
   end
@@ -29,6 +31,7 @@ class Map
   end
 
   def click(left_click, mouse_position)
+    puts create_path(@player.position, mouse_position).to_s
     @player.click(left_click, adjust_mouse_position(mouse_position))
   end
 
@@ -39,6 +42,27 @@ class Map
     [
       Image.new(path: file_data["img_path"]),
       file_data["walls"].map { |wall| Hitbox.new(wall["position"], wall["size"]) },
+    ]
+  end
+
+  def create_grid
+    Grid.new(
+      list: (0...window_width / GRID_SIDE_LENGTH).map do |x|
+        (0...window_height / GRID_SIDE_LENGTH).map do |y|
+          not within_a_wall?([x * GRID_SIDE_LENGTH + self.x, y * GRID_SIDE_LENGTH + self.y])
+        end
+      end,
+    )
+  end
+
+  def create_path(starting_pos, ending_pos)
+    create_grid.find_fatest_path(snap_to_grid(starting_pos),snap_to_grid(ending_pos))
+  end
+
+  def snap_to_grid(position)
+    [
+      (position[0] / GRID_SIDE_LENGTH).to_i,
+      (position[1] / GRID_SIDE_LENGTH).to_i,
     ]
   end
 
