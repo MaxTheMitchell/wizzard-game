@@ -4,7 +4,7 @@ require_relative "./hitbox"
 require_relative "./grid"
 
 class Map
-  GRID_SIDE_LENGTH = 400
+  GRID_SIDE_LENGTH = 10
 
   def initialize(options = {})
     if options[:file_path] != nil
