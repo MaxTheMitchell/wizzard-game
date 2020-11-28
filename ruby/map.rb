@@ -1,29 +1,43 @@
+require "json"
+require_relative "./image"
+require_relative "./hitbox"
+
 class Map
   def initialize(options = {})
-    @img = options[:img]
-    @player = options[:player]
+    if options[:file_path] != nil
+      @img, @walls = create_from_file(options[:file_path])
+    else
+      @img = options[:img]
+      @walls = options[:walls]
+    end
     @window_size = options[:window_size]
+    @player = options[:player]
   end
-
-
-  # def update 
 
   def draw(mouse_position = nil)
     @img.draw(x, y, 0)
     @player.draw(
       mouse_position,
       @player.x + x,
-      @player.y + y ,
+      @player.y + y,
     )
   end
 
   def clickable?(mouse_position = nil) true end
 
-  def click(left_click,mouse_position)
-    @player.click(left_click,adjust_mouse_position(mouse_position))
+  def click(left_click, mouse_position)
+    @player.click(left_click, adjust_mouse_position(mouse_position))
   end
 
   private
+
+  def create_from_file(file_path)
+    file_data = JSON.parse(File.new(file_path).read)
+    [
+      Image.new(path: file_data["img_path"]),
+      file_data["walls"].map { |wall| Hitbox.new(wall["position"], wall["size"]) },
+    ]
+  end
 
   def within_player?(position, player)
     player.within?(position)
@@ -41,7 +55,7 @@ class Map
   end
 
   def y(player_y = @player.y)
-    position_val(player_y, window_height,hieght)
+    position_val(player_y, window_height, hieght)
   end
 
   def position_val(player_pos, window_size, max_size)

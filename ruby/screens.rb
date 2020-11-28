@@ -98,23 +98,18 @@ class Screens
   end
 
   def test_screen_movment(size = @size, window = @window)
-    player = Player.new({
-      character_sheet: CharacterSheet.new({
-        path: "assets/imgs/character_sheets/wiz_character_sheet.png",
-        tile_size: [600, 1050],
-        img_size: [100, 200],
-      }),
-      direction: :ne,
-    })
     Screen.new([
-      # player,
       Map.new({
-        player: player,
-        window_size: size,
-        img: Image.new({
-          path: "assets/imgs/test_map.png",
-          size: [3840, 2160],
+        player: Player.new({
+          character_sheet: CharacterSheet.new({
+            path: "assets/imgs/character_sheets/wiz_character_sheet.png",
+            tile_size: [600, 1050],
+            img_size: [100, 200],
+          }),
+          direction: :ne,
         }),
+        window_size: size,
+        file_path: "assets/maps/test_map_map.json"
       }),
     ])
   end

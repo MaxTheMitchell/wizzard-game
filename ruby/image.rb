@@ -8,7 +8,7 @@ class Image
     @img = options[:img] ||= Gosu::Image.new(options[:path])
     @x, @y = options[:position] ||= [0, 0]
     @z = options[:z] ||= 1
-    @width, @height = options[:size] ||= [0, 0]
+    @width, @height = options[:size] ||= [@img.width, @img.height]
     @static = options[:static] ||= false
     @color = options[:color] ||= 0xff_ffffff
   end
