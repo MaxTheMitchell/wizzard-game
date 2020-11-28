@@ -10,11 +10,12 @@ class Map
       @img = options[:img]
       @walls = options[:walls]
     end
+    puts @walls
     @window_size = options[:window_size]
     @player = options[:player]
   end
 
-  def draw(mouse_position = nil)
+  def draw(mouse_position)
     @img.draw(x, y, 0)
     @player.draw(
       mouse_position,
@@ -23,7 +24,9 @@ class Map
     )
   end
 
-  def clickable?(mouse_position = nil) true end
+  def clickable?(mouse_position)
+    not within_a_wall?(adjust_mouse_position(mouse_position))
+  end
 
   def click(left_click, mouse_position)
     @player.click(left_click, adjust_mouse_position(mouse_position))
@@ -39,8 +42,8 @@ class Map
     ]
   end
 
-  def within_player?(position, player)
-    player.within?(position)
+  def within_a_wall?(position)
+    @walls.any? { |wall| wall.within?(position) }
   end
 
   def adjust_mouse_position(mouse_position)
