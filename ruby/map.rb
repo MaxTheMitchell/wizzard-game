@@ -4,7 +4,7 @@ require_relative "./hitbox"
 require_relative "./grid"
 
 class Map
-  GRID_SIDE_LENGTH = 10
+  GRID_SIDE_LENGTH = 100
 
   def initialize(options = {})
     if options[:file_path] != nil
@@ -15,6 +15,7 @@ class Map
     end
     @window_size = options[:window_size]
     @player = options[:player]
+    @grid = options[:grid] ||= create_grid
   end
 
   def draw(mouse_position)
@@ -31,8 +32,8 @@ class Map
   end
 
   def click(left_click, mouse_position)
-    puts create_path(@player.position, mouse_position).to_s
-    @player.click(left_click, adjust_mouse_position(mouse_position))
+    path = create_path(@player.position, adjust_mouse_position(mouse_position))
+    @player.target_path = path[1..] if path != []
   end
 
   private
@@ -46,17 +47,23 @@ class Map
   end
 
   def create_grid
-    Grid.new(
-      list: (0...window_width / GRID_SIDE_LENGTH).map do |x|
-        (0...window_height / GRID_SIDE_LENGTH).map do |y|
-          not within_a_wall?([x * GRID_SIDE_LENGTH + self.x, y * GRID_SIDE_LENGTH + self.y])
-        end
-      end,
-    )
+    positions = []
+    (0...width / GRID_SIDE_LENGTH).each do |x|
+      (0...hieght / GRID_SIDE_LENGTH).each do |y|
+        positions << [x, y] unless within_a_wall?([x * GRID_SIDE_LENGTH + self.x, y * GRID_SIDE_LENGTH + self.y])
+      end
+    end
+    Grid.new({
+      positions: positions,
+      width: width / GRID_SIDE_LENGTH,
+      hieght: hieght / GRID_SIDE_LENGTH,
+    })
   end
 
   def create_path(starting_pos, ending_pos)
-    create_grid.find_fatest_path(snap_to_grid(starting_pos),snap_to_grid(ending_pos))
+    @grid
+      .find_fatest_path(snap_to_grid(starting_pos), snap_to_grid(ending_pos))
+      .map { |position| [position[0] * GRID_SIDE_LENGTH, position[1] * GRID_SIDE_LENGTH] }
   end
 
   def snap_to_grid(position)

@@ -2,52 +2,66 @@ require_relative "./hitbox"
 
 class Player
   attr_reader :x, :y
+  attr_writer :target_path
 
   def initialize(options)
     @character_sheet = options[:character_sheet]
     @x, @y = options[:position] ||= [0, 0]
     @z = options[:z] ||= 2
     @direction = options[:direction] ||= :s
-    @target_position = options[:target_position] ||= [@x, @y]
+    @target_path = options[:target_path] ||= []
     @velocity = options[:velocity] ||= 5
     @hitbox = options[:hitbox] ||= Hitbox.new([@x, @y], [width, height])
   end
 
   def update
-    @direction = change_direction
+    @direction = change_direction(target_position, x, y)
     @x, @y = move
   end
 
   def draw(mouse_position, x = @x, y = @y, direction = @direction)
-    update if target_dirrent_from_pos?
-    @character_sheet.draw x, y, @direction, target_dirrent_from_pos?
+    update if moving?
+    @character_sheet.draw x, y, @direction, moving?
+    update_target_position if at_target_position?
   end
 
-  def clickable?(mouse_position) true end
-
-  def click(left_click, mouse_position)
-    @target_position = new_target_pos(mouse_position) if left_click
-  end
+  def clickable?(mouse_position) false end
 
   def within?(position)
     @hitbox.within?(position)
   end
 
-  def position 
-    [x,y]
+  def position
+    [x, y]
   end
 
   private
+
+  def moving?
+    target_position != nil
+  end
+
+  def at_target_position?
+    position == target_position
+  end
+
+  def target_position
+    @target_path[0]
+  end
+
+  def update_target_position
+    @target_path.shift
+  end
 
   def img_center
     @character_sheet.tile_center
   end
 
-  def new_target_pos(mouse_position)
-    [mouse_position[0] - img_center[0], mouse_position[1] - img_center[1]]
-  end
+  # def new_target_pos(mouse_position)
+  #   [mouse_position[0] - img_center[0], mouse_position[1] - img_center[1]]
+  # end
 
-  def change_direction(target_position = @target_position, x = @x, y = @y)
+  def change_direction(target_position, x, y)
     "#{y_direction(target_position[1], y)}#{x_direction(target_position[0], x)}".to_sym
   end
 
@@ -69,7 +83,7 @@ class Player
     ""
   end
 
-  def move(direction = @direction, target_position = @target_position)
+  def move(direction = @direction, target_position = self.target_position)
     [snap_to_target(move_x(direction), target_position[0]), snap_to_target(move_y(direction), target_position[1])]
   end
 
@@ -90,7 +104,7 @@ class Player
     y
   end
 
-  def target_dirrent_from_pos?(target_position = @target_position, x = @x, y = @y)
+  def target_dirrent_from_pos?(target_position = self.target_position, x = @x, y = @y)
     target_position != [x, y]
   end
 
