@@ -28,13 +28,13 @@ class Grid
     closed_list << open_list.delete(current_node)
     current_node.adjacent_nodes.each do |neighbor|
       if closed_list.include?(neighbor) and neighbor.g < current_node.g #faster way back to start
-        current_node.g = neighbor.g + 1
+        current_node.g = neighbor.g + g_weight(current_node.position, neighbor.position)
         current_node.parent = neighbor
       elsif open_list.include?(neighbor) and neighbor.g > current_node.g
-        neighbor.g = current_node.g + 1
+        neighbor.g = current_node.g + g_weight(current_node.position, neighbor.position)
         neighbor.parent = current_node
       elsif not(open_list.include?(neighbor) or closed_list.include?(neighbor))
-        neighbor.g = current_node.g + 1
+        neighbor.g = current_node.g + g_weight(current_node.position, neighbor.position)
         open_list << neighbor
       end
     end
@@ -55,6 +55,15 @@ class Grid
 
   def get_node_at_position(position, nodes = @nodes)
     nodes.find { |node| node.position == position }
+  end
+
+  def g_weight(pos1,pos2)
+    return 1.1 if daigonal?(pos1,pos2)
+    1
+  end
+
+  def daigonal?(pos1,pos2)
+    pos1[0] != pos2[0] and pos1[1] != pos2[1]
   end
 end
 
