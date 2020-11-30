@@ -15,7 +15,11 @@ class Map
     end
     @window_size = options[:window_size]
     @player = options[:player]
-    @grid = options[:grid] ||= create_grid
+    @grid = options[:grid] ||= Grid.new({
+      size: [width, hieght],
+      segment_length: GRID_SIDE_LENGTH,
+      walls: @walls,
+    })
   end
 
   def draw(mouse_position)
@@ -46,31 +50,8 @@ class Map
     ]
   end
 
-  def create_grid
-    positions = []
-    (0...width / GRID_SIDE_LENGTH).each do |x|
-      (0...hieght / GRID_SIDE_LENGTH).each do |y|
-        positions << [x, y] unless within_a_wall?([x * GRID_SIDE_LENGTH + self.x, y * GRID_SIDE_LENGTH + self.y])
-      end
-    end
-    Grid.new({
-      positions: positions,
-      width: width / GRID_SIDE_LENGTH,
-      hieght: hieght / GRID_SIDE_LENGTH,
-    })
-  end
-
   def create_path(starting_pos, ending_pos)
-    @grid
-      .find_fatest_path(snap_to_grid(starting_pos), snap_to_grid(ending_pos))
-      .map { |position| [position[0] * GRID_SIDE_LENGTH, position[1] * GRID_SIDE_LENGTH] }
-  end
-
-  def snap_to_grid(position)
-    [
-      (position[0] / GRID_SIDE_LENGTH).to_i,
-      (position[1] / GRID_SIDE_LENGTH).to_i,
-    ]
+    @grid.find_fatest_path(starting_pos, ending_pos)
   end
 
   def within_a_wall?(position)

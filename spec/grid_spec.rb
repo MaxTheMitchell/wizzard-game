@@ -1,26 +1,24 @@
 require_relative "../ruby/grid.rb"
+require_relative "../ruby/hitbox.rb"
 
 describe "A grid" do
   let(:grid) {
-    Grid.new({
-      positions: [[0, 0], [0, 1], [0, 2],
-                  [1, 0], [1, 1], [1, 2],
-                  [2, 0], [2, 1], [2, 2]],
-    })
+    Grid.new(size: [3, 3])
   }
 
   let(:grid_with_walls) {
     Grid.new({
-      positions: [[0, 0], [0, 1], [0, 2],
-                  [1, 2],
-                  [2, 0], [2, 1], [2, 2]],
+      size: [3, 3],
+      segment_length: 1,
+      walls: [Hitbox.new([1, 0], [0, 1])],
     })
   }
 
   let(:grid_with_no_path) {
     Grid.new({
-      positions: [[0, 0], [0, 1], [0, 2],
-                  [2, 0], [2, 1], [2, 2]],
+      size: [3, 3],
+      segment_length: 1,
+      walls: [Hitbox.new([1, 0], [3, 0])],
     })
   }
 
