@@ -1,6 +1,7 @@
 require "gosu"
 require_relative "../ruby/image"
 require_relative "../ruby/mouse"
+require_relative "../ruby/color"
 require "json"
 
 class Window < Gosu::Window
@@ -75,6 +76,7 @@ class Window < Gosu::Window
       1,
       (pos1[0] - pos2[0]).abs,
       (pos1[1] - pos2[1]).abs,
+      Color.rgba(255,255,255,100)
     )
   end
 
