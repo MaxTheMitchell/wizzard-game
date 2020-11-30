@@ -4,7 +4,6 @@ class Grid
   end
 
   def find_fatest_path(start_pos, end_pos)
-    # puts @nodes.length
     staring_node = get_node_at_position(start_pos, @nodes)
     staring_node.g = 0
     staring_node.parent = nil

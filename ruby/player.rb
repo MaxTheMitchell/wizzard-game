@@ -19,7 +19,7 @@ class Player
     @x, @y = move
   end
 
-  def draw(mouse_position, x = @x, y = @y, direction = @direction)
+  def draw(mouse_position, x, y, direction = @direction)
     update if moving?
     @character_sheet.draw x, y, @direction, moving?
     update_target_position if at_target_position?
@@ -56,10 +56,6 @@ class Player
   def img_center
     @character_sheet.tile_center
   end
-
-  # def new_target_pos(mouse_position)
-  #   [mouse_position[0] - img_center[0], mouse_position[1] - img_center[1]]
-  # end
 
   def change_direction(target_position, x, y)
     "#{y_direction(target_position[1], y)}#{x_direction(target_position[0], x)}".to_sym

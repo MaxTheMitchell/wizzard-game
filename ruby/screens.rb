@@ -114,4 +114,22 @@ class Screens
       }),
     ])
   end
+
+  def maze_screen(size = @size, window = @window)
+    Screen.new([
+      Map.new({
+        player: Player.new({
+          character_sheet: CharacterSheet.new({
+            path: "assets/imgs/character_sheets/wiz_character_sheet.png",
+            tile_size: [600, 1050],
+            img_size: [100, 200],
+          }),
+          direction: :ne,
+          position: [0, 0],
+        }),
+        window_size: size,
+        file_path: "assets/maps/maze_map.json",
+      }),
+    ])
+  end
 end
