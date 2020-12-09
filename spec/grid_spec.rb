@@ -1,4 +1,4 @@
-require_relative "../ruby/grid.rb"
+require_relative "../ruby/gridLazy.rb"
 require_relative "../ruby/hitbox.rb"
 
 describe "A grid" do

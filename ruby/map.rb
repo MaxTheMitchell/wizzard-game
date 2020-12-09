@@ -1,10 +1,10 @@
 require "json"
 require_relative "./image"
 require_relative "./hitbox"
-require_relative "./grid"
+require_relative "./gridLazy"
 
 class Map
-  GRID_SIDE_LENGTH = 100
+  GRID_SIDE_LENGTH = 50
 
   def initialize(options = {})
     if options[:file_path] != nil
