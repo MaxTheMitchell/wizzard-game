@@ -1,7 +1,7 @@
 require_relative "../ruby/rune"
 
 describe "a rune" do
-  let(:rune) { Rune.new([0, 0]) }
+  let(:rune) { Rune.new(position: [0, 0]) }
 
   it "can be drawn" do
     expect(rune).to respond_to(:draw)
@@ -11,13 +11,9 @@ describe "a rune" do
     expect(rune).to respond_to(:click)
   end
 
-  it "has a size that is an int" do
-    expect(Rune.size).to be_instance_of(Integer)
-  end
-
   it "can tell if a position is within it" do 
-    expect(rune.within?([Rune.size/2,Rune.size/2])).to be true
-    expect(rune.within?([Rune.size*2,Rune.size*2])).to be false
+    expect(rune.within?([rune.width/2,rune.height/2])).to be true
+    expect(rune.within?([rune.width*2,rune.height*2])).to be false
   end
 
   it "can have its breed accessed" do 

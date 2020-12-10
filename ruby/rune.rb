@@ -4,20 +4,20 @@ require_relative "./hitbox"
 
 class Rune
   attr_accessor :breed, :color
+  attr_reader :size
 
-  SIZE = [50, 50]
-  RUNE_IMGS = Image.load_tiles("assets/imgs/symbols.png", [100, 100], SIZE)
+  RUNE_IMGS = Image.load_tiles("assets/imgs/symbols.png", [100, 100])
 
-  def initialize(position, breed = Rune.random_rune, color = Rune.random_color)
-    @x = position[0]
-    @y = position[1]
-    @breed = breed
-    @color = color
-    @hitbox = Hitbox.new(position, SIZE)
+  def initialize(options = {})
+    @position = options[:position]
+    @breed = options[:breed] ||= Rune.random_breed
+    @color = options[:color] ||= Rune.random_color
+    @size = options[:size] ||= [50, 50]
+    @hitbox = options[:hitbox] ||= Hitbox.new(position, @size)
   end
 
-  def draw(x_offput = 0, y_offput = 0)
-    img.draw(@x + x_offput, @y + y_offput, 1, *SIZE, @color)
+  def draw
+    img.draw(x, y, 2, *@size, @color)
   end
 
   def click
@@ -27,38 +27,38 @@ class Rune
     @hitbox.within? position
   end
 
-  def self.size
-    SIZE[0]
-  end
-
   def x
-    @x / width
+    position[0]
   end
 
   def y
-    @y / height
+    position[1]
+  end
+
+  def width
+    @size[0]
+  end
+
+  def height
+    @size[1]
+  end
+
+  def self.amount_of_rune_breeds
+    RUNE_IMGS.length
   end
 
   private
 
-  def width
-    SIZE[0]
-  end
-
-  def height
-    SIZE[1]
+  def position
+    @position
   end
 
   def img
     RUNE_IMGS[@breed]
   end
 
-  def self.amount_of_rune_breeds
-    3
-  end
-
-  def self.random_rune
-    rand(Rune.amount_of_rune_breeds)
+  def self.random_breed
+    rand(amount_of_rune_breeds)
   end
 
   def self.random_color

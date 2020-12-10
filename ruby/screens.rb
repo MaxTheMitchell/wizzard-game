@@ -10,6 +10,7 @@ require_relative "./dialog"
 require_relative "./text"
 require_relative "./image"
 require_relative "./map"
+require "json"
 
 class Screens
   def initialize(size, window)
@@ -32,7 +33,15 @@ class Screens
   end
 
   def puzzle_screen(size = @size, window = @window)
-    Screen.new([Board.new([100, 200], size: [20, 10])])
+    Screen.new([
+      Background.new(size, path: "assets/imgs/title_screen.jpg"),
+      Board.init_from_json(
+        JSON.parse(File.new("./assets/mobs/mushroom.json").read),
+        [500,10],
+        5,
+        [30,30]
+      )
+    ])
   end
 
   def graduation(size = @size, window = @window)

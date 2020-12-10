@@ -21,7 +21,7 @@ class Image
     end
   end
 
-  def self.load_tiles(path, tile_size, img_size)
+  def self.load_tiles(path, tile_size, img_size = [100,100])
     Gosu::Image::load_tiles(path, *tile_size).map do |img|
       new({ img: img, size: img_size })
     end

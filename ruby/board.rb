@@ -1,20 +1,53 @@
 require_relative "./rune"
 require_relative "./hitbox"
+require_relative "./image"
 
 class Board
-  def initialize(position, options = {})
-    @x = position[0]
-    @y = position[1]
-    @runes = options[:runes] ||= random_runes(*options[:size])
-    @hitbox = Hitbox.new position, [width, height]
+  def initialize(options = {})
+    @position = options[:position]
+    @runes = options[:runes] |= []
+    @img = options[:img] ||= nil
+  end
+
+  def self.init_from_json(json, position, breeds = Rune.amount_of_rune_breeds, rune_size = [50, 50])
+    colors = json["data"]
+      .uniq
+      .reject { |color| color.last == 0 }
+      .map { |color| Color.rgba(*color) }
+    puts "amout of colors #{colors.length}"
+    runes = json["data"]
+      .each_with_index
+      .reject { |color, _| color.last == 0 }
+      .map do |_, i|
+      Rune.new({
+        position: [
+          position[0] + (i % json["width"]) * rune_size[0],
+          position[1] + (i / json["width"]) * rune_size[1],
+        ],
+        breed: rand(breeds),
+        color: colors.sample,
+        size: rune_size,
+      })
+    end
+    new(
+      position: position,
+      img: Image.new(
+        path: json["img_path"],
+        position: position,
+        size: self.size(runes),
+        z: 0,
+        color: Color.rgba(255, 255, 255, 150),
+      ),
+      runes: runes,
+    )
   end
 
   def draw(mouse_position)
-    @runes.flatten.each { |rune| rune.draw(@x, @y) }
+    @runes.each(&:draw)
+    @img.draw
   end
 
   def click(left_click, position)
-    position = position[0] - @x, position[1] - @y
     if left_click
       spred_color rune_at(position)
     else
@@ -45,34 +78,33 @@ class Board
   end
 
   def within?(position)
-    @hitbox.within? position
+    @runes.any? { |r| r.within?(position) }
   end
 
   def ajacent_runes(rune)
-    [get_rune(rune.x - 1, rune.y), get_rune(rune.x + 1, rune.y),
-     get_rune(rune.x, rune.y - 1), get_rune(rune.x, rune.y + 1)].filter { |rune| rune != nil }
+    [rune_at([rune.x - rune_width / 2, rune.y]), rune_at([rune.x + rune_width / 2, rune.y]),
+     rune_at([rune.x, rune.y - rune_hieght / 2]), rune_at([rune.x, rune.y + rune_hieght / 2])].reject(&:nil?)
   end
 
   def rune_at(position)
-    @runes.flatten.find { |rune| rune.within?(position) }
+    @runes.find { |rune| rune.within?(position) }
   end
 
-  def get_rune(x, y)
-    return nil if x < 0 or y < 0 or x >= @runes.length or y >= @runes[0].length
-    @runes[x][y]
+  def self.size(runes = @runes)
+    [width(runes), height(runes)]
   end
 
-  def random_runes(x, y)
-    (0..x).map do |row|
-      (0..y).map { |col| Rune.new([row * Rune.size, col * Rune.size]) }
-    end
+  def self.width(runes = @runes)
+    (runes.map(&:x).uniq.length + 1) * runes.first.width
   end
 
-  def width
-    @runes.length * Rune.size
+  def self.height(runes = @runes)
+    runes.map(&:y).uniq.length * runes.first.height
   end
 
-  def height
-    @runes[0].length * Rune.size
-  end
+  def rune_width() rune_size[0] end
+  def rune_hieght() rune_size[1] end
+  def rune_size() @runes.first.size end
+  def x() @position[0] end
+  def y() @position[1] end
 end
