@@ -34,11 +34,11 @@ class Screens
 
   def puzzle_screen(size = @size, window = @window)
     Screen.new([
-      Background.new(size, path: "assets/imgs/title_screen.jpg"),
+      # Background.new(size, path: "assets/imgs/title_screen.jpg"),
       Board.init_from_json(
         JSON.parse(File.new("./assets/mobs/mushroom.json").read),
         [500,10],
-        1,
+        3,
         [40,40]
       )
     ])

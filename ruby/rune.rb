@@ -8,6 +8,8 @@ class Rune
 
   RUNE_IMGS = [
     Image.load_tiles("assets/imgs/cube_sheet.png", [1000, 1000]),
+    Image.load_tiles("assets/imgs/cone_sheet.png", [800, 800]),
+    Image.load_tiles("assets/imgs/donut_sheet.png", [800, 800]),
   ]
   ANINMATION_INTERVAL = 5
 

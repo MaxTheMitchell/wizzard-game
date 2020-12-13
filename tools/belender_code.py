@@ -13,11 +13,11 @@ def get_cameras():
     return [obj for obj in bpy.data.objects if obj.type == "CAMERA"]
 
 
-def create_cameras(target, cir):
+def create_cameras(target, cir, z=0):
     for p in pos_combos(cir):
         bpy.ops.object.camera_add(
             enter_editmode=False,
-            location=[*p, 0]
+            location=[*p, z]
         )
         track_to = bpy.context.object.constraints.new('TRACK_TO')
         track_to.target = target
