@@ -1,25 +1,6 @@
 require_relative "../ruby/board"
 require_relative "../ruby/rune"
 
-# class FakeRune
-#   attr_accessor :breed, :color
-
-#   def initialize(position, breed, color)
-#     @breed = breed
-#     @color = color
-#     @position = position
-#   end
-
-#   def x() @position[0] end
-#   def y() @position[1] end
-#   def within?(position) true end
-#   def size() 10 end
-# end
-
-class Board
-  attr_reader :runes
-end
-
 describe "a board" do
   let(:runes) {
     [Rune.new({ position: [0, 0], breed: "breed1", color: "color1" }),
@@ -48,11 +29,11 @@ describe "a board" do
   end
 
   it "spreds breed to to ajacent runes of the same color when left clicked" do
-    board.click(true, [0, 10])
+    board.click(false, [5, 15])
     expect(runes[0].breed).to eq(runes[1].breed)
   end
 
-  it "is clickable when the mouse_position is over it" do
+   it "is clickable when the mouse_position is over it" do
     expect(board).to be_clickable([1, 1])
     expect(board).to_not be_clickable([-1, -1])
   end

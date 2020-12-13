@@ -14,18 +14,18 @@ class Board
       .uniq
       .reject { |color| color.last == 0 }
       .map { |color| Color.rgba(*color) }
-    puts "amout of colors #{colors.length}"
     runes = json["data"]
       .each_with_index
       .reject { |color, _| color.last == 0 }
-      .map do |_, i|
+      .map do |color, i|
       Rune.new({
         position: [
           position[0] + (i % json["width"]) * rune_size[0],
           position[1] + (i / json["width"]) * rune_size[1],
         ],
         breed: rand(breeds),
-        color: colors.sample,
+        # color: colors.sample,
+        color: Color.rgba(*color),
         size: rune_size,
       })
     end
@@ -44,7 +44,7 @@ class Board
 
   def draw(mouse_position)
     @runes.each(&:draw)
-    @img.draw
+    # @img.draw
   end
 
   def click(left_click, position)
@@ -62,18 +62,16 @@ class Board
   private
 
   def spred_color(rune, spred_runes = [])
-    spred_runes << rune
     ajacent_runes(rune).filter { |r| rune.breed == r.breed and not spred_runes.include?(r) }.each do |r|
       r.color = rune.color
-      spred_color(r, spred_runes)
+      spred_color(r, spred_runes <<  rune)
     end
   end
 
   def spred_breed(rune, spred_runes = [])
-    spred_runes << rune
     ajacent_runes(rune).filter { |r| rune.color == r.color and not spred_runes.include?(r) }.each do |r|
       r.breed = rune.breed
-      spred_breed(r, spred_runes)
+      spred_breed(r, spred_runes << rune)
     end
   end
 
@@ -82,8 +80,8 @@ class Board
   end
 
   def ajacent_runes(rune)
-    [rune_at([rune.x - rune_width / 2, rune.y]), rune_at([rune.x + rune_width / 2, rune.y]),
-     rune_at([rune.x, rune.y - rune_hieght / 2]), rune_at([rune.x, rune.y + rune_hieght / 2])].reject(&:nil?)
+    [rune_at([rune.x - rune_width / 2, rune.y + 1]), rune_at([rune.x + rune_width * 2, rune.y + 1]),
+     rune_at([rune.x + 1, rune.y - rune_hieght / 2]), rune_at([rune.x + 1, rune.y + rune_hieght * 2])].reject(&:nil?)
   end
 
   def rune_at(position)

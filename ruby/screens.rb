@@ -38,8 +38,8 @@ class Screens
       Board.init_from_json(
         JSON.parse(File.new("./assets/mobs/mushroom.json").read),
         [500,10],
-        5,
-        [30,30]
+        1,
+        [40,40]
       )
     ])
   end

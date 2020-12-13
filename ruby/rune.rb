@@ -6,7 +6,10 @@ class Rune
   attr_accessor :breed, :color
   attr_reader :size
 
-  RUNE_IMGS = Image.load_tiles("assets/imgs/symbols.png", [100, 100])
+  RUNE_IMGS = [
+    Image.load_tiles("assets/imgs/cube_sheet.png", [1000, 1000]),
+  ]
+  ANINMATION_INTERVAL = 5
 
   def initialize(options = {})
     @position = options[:position]
@@ -14,6 +17,7 @@ class Rune
     @color = options[:color] ||= Rune.random_color
     @size = options[:size] ||= [50, 50]
     @hitbox = options[:hitbox] ||= Hitbox.new(position, @size)
+    @animation_frame = 0
   end
 
   def draw
@@ -54,7 +58,13 @@ class Rune
   end
 
   def img
-    RUNE_IMGS[@breed]
+    RUNE_IMGS[@breed][animation_frame]
+  end
+
+  def animation_frame
+    @animation_frame += 1
+    @animation_frame = 0 if RUNE_IMGS[0].length * ANINMATION_INTERVAL <= @animation_frame
+    @animation_frame / ANINMATION_INTERVAL
   end
 
   def self.random_breed
