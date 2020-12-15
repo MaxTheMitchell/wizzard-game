@@ -3,7 +3,7 @@ require_relative "./color"
 require_relative "./hitbox"
 
 class Rune
-  attr_accessor :breed, :color
+  attr_accessor :breed, :color, :position, :target_position
   attr_reader :size
 
   RUNE_IMGS = [
@@ -12,6 +12,7 @@ class Rune
     Image.load_tiles("assets/imgs/donut_sheet.png", [800, 800]),
   ]
   ANINMATION_INTERVAL = 5
+  MOVMENT_SPEED = 20
 
   def initialize(options = {})
     @position = options[:position]
@@ -20,9 +21,11 @@ class Rune
     @size = options[:size] ||= [50, 50]
     @hitbox = options[:hitbox] ||= Hitbox.new(position, @size)
     @animation_frame = 0
+    @target_position = options[:target_position] ||= nil
   end
 
   def draw
+    move unless @target_position.nil?
     img.draw(x, y, 2, *@size, @color)
   end
 
@@ -31,6 +34,13 @@ class Rune
 
   def within?(position)
     @hitbox.within? position
+  end
+
+  def within_target_pos?
+    Hitbox.new(
+      @target_position.map { |p| p - @size.first/2 },
+      @size
+    ).within?(@position)
   end
 
   def x
@@ -55,8 +65,9 @@ class Rune
 
   private
 
-  def position
-    @position
+  def move
+    @position[0] -= (@position[0] - target_position[0]).to_f / MOVMENT_SPEED
+    @position[1] -= (@position[1] - target_position[1]).to_f / MOVMENT_SPEED
   end
 
   def img

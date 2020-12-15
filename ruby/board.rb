@@ -7,6 +7,8 @@ class Board
     @position = options[:position]
     @runes = options[:runes] |= []
     @img = options[:img] ||= nil
+    @static_center = options[:static_center] ||= center
+    # @can_click = options[:can_click] ||= true
   end
 
   def self.init_from_json(json, position, breeds = Rune.amount_of_rune_breeds, rune_size = [50, 50])
@@ -43,8 +45,10 @@ class Board
   end
 
   def draw(mouse_position)
+    if won?
+      frog_transormation
+    end
     @runes.each(&:draw)
-    # @img.draw
   end
 
   def click(left_click, position)
@@ -61,10 +65,30 @@ class Board
 
   private
 
+  def won?
+    @runes.uniq(&:color).length == 1
+  end
+
+  def frog_transormation
+    if @runes.first.target_position == nil
+      move_to_center
+    elsif @runes.all?(&:within_target_pos?)
+      spred_out
+    end
+  end
+
+  def move_to_center
+    @runes.each { |r| r.target_position = center }
+  end
+
+  def spred_out
+    @runes.each { |r| r.target_position = [x + rand(width),y + rand(height)] }
+  end
+
   def spred_color(rune, spred_runes = [])
     ajacent_runes(rune).filter { |r| rune.breed == r.breed and not spred_runes.include?(r) }.each do |r|
       r.color = rune.color
-      spred_color(r, spred_runes <<  rune)
+      spred_color(r, spred_runes << rune)
     end
   end
 
@@ -88,6 +112,13 @@ class Board
     @runes.find { |rune| rune.within?(position) }
   end
 
+  def center(runes = @runes)
+    [
+      Board.width(runes) / 2 + x,
+      Board.height(runes) / 2 + y,
+    ]
+  end
+
   def self.size(runes = @runes)
     [width(runes), height(runes)]
   end
@@ -100,6 +131,8 @@ class Board
     runes.map(&:y).uniq.length * runes.first.height
   end
 
+  def width() Board.width(@runes) end
+  def height() Board.height(@runes) end
   def rune_width() rune_size[0] end
   def rune_hieght() rune_size[1] end
   def rune_size() @runes.first.size end
