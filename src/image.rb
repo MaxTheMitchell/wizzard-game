@@ -21,7 +21,15 @@ class Image
     end
   end
 
-  def self.load_tiles(path, tile_size, img_size = [100,100])
+  def draw_center(x = @x, y = @y, z = @z, width = @width, height = @height, color = @color)
+    draw(
+      x - width / 2,
+      y - height / 2,
+      z, width, height, color
+    )
+  end
+
+  def self.load_tiles(path, tile_size, img_size = [100, 100])
     Gosu::Image::load_tiles(path, *tile_size).map do |img|
       new({ img: img, size: img_size })
     end

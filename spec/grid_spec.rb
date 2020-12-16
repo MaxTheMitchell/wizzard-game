@@ -1,5 +1,5 @@
-require_relative "../ruby/gridLazy.rb"
-require_relative "../ruby/hitbox.rb"
+require_relative "../src/gridLazy.rb"
+require_relative "../src/hitbox.rb"
 
 describe "A grid" do
   let(:grid) {

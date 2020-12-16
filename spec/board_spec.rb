@@ -1,5 +1,5 @@
-require_relative "../ruby/board"
-require_relative "../ruby/rune"
+require_relative "../src/board"
+require_relative "../src/rune"
 
 describe "a board" do
   let(:runes) {

@@ -1,4 +1,4 @@
-require_relative "../ruby/mouse"
+require_relative "../src/mouse"
 
 describe "a Mosue" do
   it "can be drawn" do

@@ -1,4 +1,4 @@
-require_relative "../ruby/button.rb"
+require_relative "../src/button.rb"
 
 describe "A button" do
   let(:button) { Button.new([0, 0], [10, 10], "test", 0, -> { return "test" }) }

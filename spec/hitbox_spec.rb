@@ -1,4 +1,4 @@
-require_relative "../ruby/hitbox.rb"
+require_relative "../src/hitbox.rb"
 
 class Hitbox
   def public_lines_intersect?(line_a, line_b)

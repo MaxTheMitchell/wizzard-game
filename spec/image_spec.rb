@@ -1,4 +1,4 @@
-require_relative "../ruby/image.rb"
+require_relative "../src/image.rb"
 
 describe "An Image" do
   let(:image) { Image.new(path:"spec/test.png") }

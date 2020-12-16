@@ -1,4 +1,4 @@
-require_relative "../ruby/rune"
+require_relative "../src/rune"
 
 describe "a rune" do
   let(:rune) { Rune.new(position: [0, 0]) }

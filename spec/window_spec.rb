@@ -1,4 +1,4 @@
-require_relative "../ruby/window"
+require_relative "../src/window"
 
 describe "a window" do
   it "can have it's screen changed" do

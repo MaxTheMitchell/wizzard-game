@@ -6,12 +6,18 @@ require_relative "./image"
 class Board
 
   AMOUNT_OF_TRANSFORMATION_CIRCLES = 50
+  FROG_IMG = Image.new({
+    path: "assets/imgs/frog.png",
+    size: [80,80],
+    z: 1
+  })
 
   def initialize(options = {})
     @position = options[:position]
     @runes = options[:runes] |= []
     @img = options[:img] ||= nil
     @static_center = options[:static_center] ||= center
+    @display_frog = false
   end
 
   def self.init_from_json(json, position, breeds = Rune.amount_of_rune_breeds, rune_size = [50, 50])
@@ -50,6 +56,7 @@ class Board
     if won?
       frog_transormation
     end
+    FROG_IMG.draw_center(*@transformation_center) if @display_frog
     @runes.each(&:draw)
   end
 
@@ -73,6 +80,7 @@ class Board
   end
 
   def frog_transormation
+    @transformation_center = @transformation_center ||= center
     @transformation_stage = @transformation_stage ||= 0
     if @runes.first.target_position.nil?
       move_to_center
@@ -80,6 +88,7 @@ class Board
     elsif @runes.all?(&:within_target_pos?) and @transformation_stage == 1
       make_circle
       @transformation_stage = 0
+      @display_frog = true
     end
   end
 

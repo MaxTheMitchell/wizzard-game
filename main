@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative "./ruby/window"
+require_relative "./src/window"
 
 Window.new.show
