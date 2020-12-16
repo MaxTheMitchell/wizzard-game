@@ -1,14 +1,17 @@
+include Math
 require_relative "./rune"
 require_relative "./hitbox"
 require_relative "./image"
 
 class Board
+
+  AMOUNT_OF_TRANSFORMATION_CIRCLES = 50
+
   def initialize(options = {})
     @position = options[:position]
     @runes = options[:runes] |= []
     @img = options[:img] ||= nil
     @static_center = options[:static_center] ||= center
-    # @can_click = options[:can_click] ||= true
   end
 
   def self.init_from_json(json, position, breeds = Rune.amount_of_rune_breeds, rune_size = [50, 50])
@@ -26,7 +29,6 @@ class Board
           position[1] + (i / json["width"]) * rune_size[1],
         ],
         breed: rand(breeds),
-        # color: colors.sample,
         color: Color.rgba(*color),
         size: rune_size,
       })
@@ -67,13 +69,17 @@ class Board
 
   def won?
     @runes.uniq(&:color).length == 1
+    # true
   end
 
   def frog_transormation
-    if @runes.first.target_position == nil
+    @transformation_stage = @transformation_stage ||= 0
+    if @runes.first.target_position.nil?
       move_to_center
-    elsif @runes.all?(&:within_target_pos?)
-      spred_out
+      @transformation_stage = 1
+    elsif @runes.all?(&:within_target_pos?) and @transformation_stage == 1
+      make_circle
+      @transformation_stage = 0
     end
   end
 
@@ -81,8 +87,19 @@ class Board
     @runes.each { |r| r.target_position = center }
   end
 
-  def spred_out
-    @runes.each { |r| r.target_position = [x + rand(width),y + rand(height)] }
+  def make_circle
+    center = @runes.first.target_position
+    radius = size.min / 2
+    deg_amount = AMOUNT_OF_TRANSFORMATION_CIRCLES * 2 * Math::PI / @runes.length
+    @runes.each_with_index do |r, i|
+      r.target_position = [
+        center[0] + radius * Math.cos(i * deg_amount),
+        center[1] + radius * Math.sin(i * deg_amount),
+      ]
+      if (i+1) % ((@runes.length + 1) / AMOUNT_OF_TRANSFORMATION_CIRCLES) == 0
+        radius /= 1 + 1.to_f / AMOUNT_OF_TRANSFORMATION_CIRCLES
+      end
+    end
   end
 
   def spred_color(rune, spred_runes = [])
@@ -131,6 +148,7 @@ class Board
     runes.map(&:y).uniq.length * runes.first.height
   end
 
+  def size() [width, height] end
   def width() Board.width(@runes) end
   def height() Board.height(@runes) end
   def rune_width() rune_size[0] end
